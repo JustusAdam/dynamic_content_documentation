@@ -53,15 +53,33 @@ The full function signature is (the same signature applies to ``controller_metho
         **options
         ):
 
-=========== =========================================== =========== ==========
-Name        Type                                        default     Function
-=========== =========================================== =========== ==========
-value       str, set[str]                               no default  paths that this controller function handles
-method      str, set[str]                               'get'       types of request methods this controller function handles
-headers     str, set[str]                               None        special headers a request must have to be handled by this controller (None=no special headers) (does not work yet)
-query       bool, list[str], tuple[str], dict{str: str} False       either marks whether this controller accepts a query **or** which query parameters this function wants and in the case of the dict, how they should be called
-options     any                                         no options  additional options that are attached to the resulting ControllerFunction (attribute 'options') and can be accessed by view middleware
-=========== =========================================== =========== ==========
+=========== =========================================== ===========
+Name        Type                                        default
+=========== =========================================== ===========
+value       str, set[str]                               no default
+method      str, set[str]                               'get'
+headers     str, set[str]                               None
+query       bool, list[str], tuple[str], dict{str: str} False
+options     any                                         no options
+=========== =========================================== ===========
+
+Effects
+""""""""
+
+value
+    Paths that this controller function handles
+
+method
+    Types of request methods this controller function handles
+
+headers
+    Special headers a request must have to be handled by this controller (None=no special headers) (does not work yet)
+
+query
+    Either marks whether this controller accepts a query **or** which query parameters this function wants and in the case of the dict, how they should be called
+
+options
+    Additional options that are attached to the resulting ControllerFunction (attribute 'options') and can be accessed by view middleware
 
 
 Path parameters
@@ -82,14 +100,18 @@ Queries
 
 Your controller function can express its desire to accept a query in three different ways. Depending on the type of the argument supplied to `query=` in the decorator.
 
-=============== ======================================================================= =========================================== ==============
-Type            Effect                                                                  value type (when calling the controller)    argument type (when calling the controller)
-=============== ======================================================================= =========================================== ==============
-bool            toggles whether to supply the (full) query to the controller function   ``dict[str, list]``                         positional
-iterable[str]   names of arguments to filter the query for                              `list, list, ...`                           keyword argument, (argument names are the names in the supplied iterable)
-dict[str, str]  keys are names to filter the query for                                  `list, list, ...`                           keyword argument, (argument names are the corresponding dict values)
-str             name to filter the query for                                            `list`                                      special case of iterable[str] for single argument
-=============== ======================================================================= =========================================== ==============
+bool (True)
+    When True the controller will be called with the full query (type=dict[str,list[str]]) as a positional argument.
+
+list[str], tuple[str], set[str], frozenset[str]
+    controller will be called with keyword arguments whose keys are the strings from the iterable and values are the values from the query dict corresponding assigned to that key
+    If a key is not present in query, None will be the value. (``query.get(key, None)``)
+
+dict[str, str]
+    Similar to the above as the query will be filtered for the keys from the dict. However the names of the keyword arguments the controller is called with will be the values from the dict you supplied.
+
+str
+    Special case of the list, set, etc. The controller will be called with a keyword argument where the name is the supplied string and the value is the value from the query assigned to this key.
 
 
 Example
@@ -185,6 +207,7 @@ Implementation details
             query=False,
             **options
             ):
+            pass
 
  #. ``@controller_method`` does not return the original function but rather a callable instance of dycc.mvc.decorator.ControllerFunction.
 
