@@ -4,14 +4,19 @@ The theming module
 TLDR
 ----
 
-- either
-    - attach ``@theme(default_theme_name)`` decorator to your controller function
-    - or set the `theme` handler option to True or the theme name
-    to enable theming.
-- either
-    - attach ``@breadcrumbs`` to your controller function
-    - or set ``bradcrumbs`` handler option to True
-    to get the ``breadcrumbs`` variable in the template
+To enable theming either
+
+ -  attach ``@theme(default_theme_name)`` decorator to your controller function
+
+ -  or set the `theme` handler option to True or the theme name
+
+To get the ``breadcrumbs`` variable in the template
+
+ -  attach ``@breadcrumbs`` to your controller function
+
+ -  or set ``bradcrumbs`` handler option to True
+
+
 
 Package
 -------
@@ -56,7 +61,7 @@ Full decorator signature:
 
 The default_theme argument indicates which theme to attach if you don't attach a theme yourself. As that argument has a default value you can omit it when decorating the function **however** since the decorator expects this argument you still have to add empty parens like so:
 
-.. code:: pyton
+.. code:: python
 
     @mvc.controller_function(**options)
     @theming.theme() # <- note the empty parens
@@ -130,7 +135,7 @@ Again, like the theme, there's another way of adding breadcrumbs to your context
 
 Simply set the ``breadcrumbs`` handler option to True and a subsequent middleware will take care of adding breadcrumbs to the context for you.
 
-*Note: non-bool values for the ``breadcrumbs`` option are ignored*
+*Note: non-bool values for the 'breadcrumbs' option are ignored*
 
 .. code:: python
 
@@ -139,10 +144,10 @@ Simply set the ``breadcrumbs`` handler option to True and a subsequent middlewar
 
 
     @mvc.controller_function(
-        ...
+        # ...
         breadcrumbs=True
     )
-    def my_function(...):
+    def my_function(*options, **params):
         pass
 
 Attach function
@@ -160,6 +165,6 @@ Simply ``echo`` or ``print`` the ``breadcrumbs`` variable.
 Output details
 ^^^^^^^^^^^^^^
 
-The ``breadcrumbs`` variable in the template will contain a ``dycc.util.structures.InvisibleList``, which inherits from the builtin list with the only difference being, that when converted to a string (InvisibleList.__str__) will just return the concatenated string representations of its elements.
+The ``breadcrumbs`` variable in the template will contain a ``dycc.util.structures.InvisibleList``, which inherits from the builtin list with the only difference being, that when converted to a string ``InvisibleList.__str__`` will just return the concatenated string representations of its elements.
 
 The elements of said list are instances of ``dycc.util.html.A`` and ``dycc.util.html.ContainerElement`` for the separator. This allows for easy access to the actual 'href' attributes so you can render you breadcrumbs in a different/custom way.

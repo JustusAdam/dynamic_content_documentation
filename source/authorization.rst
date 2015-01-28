@@ -3,9 +3,9 @@ Authorization
 
 TLDR
 ----
-- Decorate your controller function with ``@authorize(permission)``.
-- assign ``permission`` to the control group (id=0)
-- assign ``permission`` to groups you wish to have access via the admin interface at /permissions
+ -  Decorate your controller function with ``@authorize(permission)``.
+ -  assign ``permission`` to the control group (id=0)
+ -  assign ``permission`` to groups you wish to have access via the admin interface at /permissions
 
 Client information
 ------------------

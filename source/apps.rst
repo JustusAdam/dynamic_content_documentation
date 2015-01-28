@@ -8,9 +8,9 @@ Configuring modules
 
     either
 
-    - place them in ``dyc/modules`` and add them to ``settings.MODULES``
+    -   place them in ``dyc/modules`` and add them to ``settings.MODULES``
 
-    - import them in your own start script
+    -   import them in your own start script
 
 Configuring Settings
 --------------------
@@ -49,9 +49,9 @@ Use the predefined main script
 
 invoke either
 
--   ``pypy3 path_to_framework/dyc/application/main.py --some command_line --arguments true``
+ -  ``pypy3 path_to_framework/dyc/application/main.py --some command_line --arguments true``
 
--   ``python3 path_to_framework/dyc/application/main.py --some command_line --arguments true``
+ -  ``python3 path_to_framework/dyc/application/main.py --some command_line --arguments true``
 
 Use the predefined bash script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
