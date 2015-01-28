@@ -1,12 +1,14 @@
-# TLDR
+# REST with dynamic_content
 
-# Index
+## TLDR
 
-# Enabling JSON output
+## Index
 
-## Decorator
+## Enabling JSON output
 
-## Middleware
+### Decorator
+
+### Middleware
 
 
 *comming soon*

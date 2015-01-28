@@ -1,4 +1,6 @@
-# TLDR
+# The theming module
+
+## TLDR
 
 - either
     - attach `@theme(default_theme_name)` decorator to your controller function
@@ -9,36 +11,13 @@
     - or set `bradcrumbs` handler option to True
     to get the `breadcrumbs` variable in the template
 
-# Index
-
-- [TLDR](#tldr)
-- [Package](#package)
-- [Theming with theming](#theming-with-theming)
-    - [Effect on context](#effect-on-context)
-    - [Effect on templates](#effect-on-templates)
-    - [Enable theming](#enable-theming)
-        - [Decorator](#decorator)
-        - [Middleware](#middleware)
-        - [Attach function](#attach-function-1)
-    - [Assigning themes to views](#assigning-themes-to-views)
-- [Breadcrumbs](#breadcrumbs)
-    - [Enabling breadcrumbs](#enabling-breadcrumbs)
-        - [Decorator](#decorator-1)
-        - [Middleware](#middleware-1)
-        - [Attach function](#attach-function)
-    - [Usage in template](#usage-in-template)
-    - [Output details](#output-details)
-
-
-
-
-# Package
+## Package
 
 The module is called `theming` and can be found in the `dyc.modules` directory.
 
-# Theming with theming
+## Theming with theming
 
-## Effect on context
+### Effect on context
 
 `@theme()` adds a `'theme_config'` key with a dictionary containing information about, you guessed it, the specified theme to the `DynamicContent.config` dict. This 'theme_config' is basically a copy of the config.json file from the theme directory and is used to configure behaviour of the `@theme` decorator and others, such as `@commons.Regions`.
 
@@ -46,15 +25,15 @@ Additionally the decorator compiles a list of `'scripts'`, `'stylesheets'` and `
 
 Basically it adds stylesheets based on the theme configuration.
 
-## Effect on templates
+### Effect on templates
 
 The `@theme` decorator does not directly influence the name of the view, however it adds the themes `'template_directory'` as the first path in which to search for a matching template.
 
 Since every theme defines its own classes etc. you should use one of the themes boilerplate templates when designing your own template.
 
-## Enable theming
+### Enable theming
 
-### Decorator
+#### Decorator
 
 As you may have guessed already, theming a view, like just about anything else, requires a decorator. The decorator is called `dyc.modules.theming.theme`.
 
@@ -75,7 +54,7 @@ def controller(dc_obj):
     pass
 ```
 
-### Middleware
+#### Middleware
 
 Alternative to using a decorator you can set the 'theme' option in the handler options. The `dyc.modules.theming.Middleware` will then take care of compiling the theme information.
 
@@ -90,27 +69,27 @@ def controller(...):
 
 The argument here can either be a bool or a theme name which to use as default theme. It works very similar to the decorator as in a previously set `'theme'` key takes precedence, the argument provided will be used as default, if the `'theme'` key has not been set by the controller function (if the argument is `True` the default theme from settings will be used) and if `'theme_config'` has been previously set no changes at all are made.
 
-### Attach function
+#### Attach function
 
 Theme also provides a raw attach function called `theme_dc_obj`. Which takes takes an instance of `dyc.util.structures.DynamicContent` and a default theme to use as an argument and will compile theme information and attach context variables as described above to the `DynamicContent` instance.
 
 This is mostly intended to be used by other decorators and/or middleware that depend on the theme information or template variables.
 
-## Assigning themes to views
+### Assigning themes to views
 
 Inside a controller function that has been decorated with `@theme()` you can set the theme it should use by setting the `'theme'` key in the `config` dict of the `DynamicContent` instance.
 
 Alternatively/Additionally you can provide a `default_theme` to the `@theme()` decorator, which will automatically set the `'theme'` key of the `config` dict, provided it has not been set already.
 
-# Breadcrumbs
+## Breadcrumbs
 
 You can use this part of the package to attach whats called breadcrumbs to your context, which you can then use in the template with the `breadcrumbs` key.
 
 Breadcrumbs are essentially links to parent pages. Currently these are obtained by simply splitting the request url in sections and rendering a series of links to each section.
 
-## Enabling breadcrumbs
+### Enabling breadcrumbs
 
-### Decorator
+#### Decorator
 
 As with the theme, there is a decorator which can be used to enable breadcrumbs, and it is very imaginatively called `@breadcrumbs`.
 
@@ -124,7 +103,7 @@ def my_function(...):
     pass
 ```
 
-### Middleware
+#### Middleware
 
 Again, like the theme, there's another way of adding breadcrumbs to your context, a handler option.
 
@@ -142,17 +121,17 @@ def my_function(...):
     pass
 ```
 
-### Attach function
+#### Attach function
 
 Like theme breadcrumbs also provides a raw attach function called `attach_breadcrumbs`, which takes an instance of `dyc.util.structures.DynamicContent` as an argument and performs the breadcrumb attachment **if** and **only if** there were no breadcrumbs attached previously.
 
 This is mostly intended to be used by other decorators and/or middleware that depend on breadcrumbs.
 
-## Usage in template
+### Usage in template
 
 Simply `echo` or `print` the `breadcrumbs` variable.
 
-## Output details
+### Output details
 
 The `breadcrumbs` variable in the template will contain a `dyc.util.structures.InvisibleList`, which inherits from the builtin list with the only difference being, that when converted to a string (InvisibleList.__str__) will just return the concatenated string representations of its elements.
 

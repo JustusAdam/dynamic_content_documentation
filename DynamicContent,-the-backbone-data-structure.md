@@ -1,4 +1,6 @@
-# Structure
+# The Backbone Datastructure
+
+## Structure
 
 The 'DynamicContent' data structure is the frameworks backbone, and the major way different components use to communicate.
 
