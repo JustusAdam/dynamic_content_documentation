@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Authorization &mdash; dynamic_content 0.1 alpha documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1 alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dynamic_content 0.1 alpha documentation" href="index.html" />
+    <link rel="next" title="The Backbone Datastructure" href="backbone.html" />
+    <link rel="prev" title="The theming module" href="theming-module.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="backbone.html" title="The Backbone Datastructure"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="theming-module.html" title="The theming module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">dynamic_content 0.1 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="authorization">
+<h1>Authorization<a class="headerlink" href="#authorization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tldr">
+<h2>TLDR<a class="headerlink" href="#tldr" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Decorate your controller function with <code class="docutils literal"><span class="pre">&#64;authorize(permission)</span></code>.</li>
+<li>assign <code class="docutils literal"><span class="pre">permission</span></code> to the control group (id=0)</li>
+<li>assign <code class="docutils literal"><span class="pre">permission</span></code> to groups you wish to have access via the admin interface at /permissions</li>
+</ul>
+</div>
+<div class="section" id="client-information">
+<h2>Client information<a class="headerlink" href="#client-information" title="Permalink to this headline">¶</a></h2>
+<p>Information about the client can be found in the DynamicContent instance you controller is being called with by accessing the <cite>client</cite> field of the <cite>request</cite> field.</p>
+<p>The field contains an instance of <cite>dyc.modules.users.client.Information</cite> which provides a <cite>check_permission(self, permission)</cite> method, which can be used to check whether a specific <cite>permission</cite> has been assigned to the group this user belongs to.</p>
+</div>
+<div class="section" id="decorator">
+<h2>Decorator<a class="headerlink" href="#decorator" title="Permalink to this headline">¶</a></h2>
+<p>The module <code class="docutils literal"><span class="pre">dyc.modules.user</span></code> also provides a <code class="docutils literal"><span class="pre">&#64;authorize(permission)</span></code> decorator in the <code class="docutils literal"><span class="pre">dyc.modules.user.decorator</span></code> module. On every request to this controller the decorator will call <code class="docutils literal"><span class="pre">check_permission</span></code> as described above to authorize the user with the given permission.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Authorization</a><ul>
+<li><a class="reference internal" href="#tldr">TLDR</a></li>
+<li><a class="reference internal" href="#client-information">Client information</a></li>
+<li><a class="reference internal" href="#decorator">Decorator</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="theming-module.html"
+                        title="previous chapter">The theming module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="backbone.html"
+                        title="next chapter">The Backbone Datastructure</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/authorization.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="backbone.html" title="The Backbone Datastructure"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="theming-module.html" title="The theming module"
+             >previous</a> |</li>
+        <li><a href="index.html">dynamic_content 0.1 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Justus Adam.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3b2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The theming module &mdash; dynamic_content 0.1 alpha documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1 alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dynamic_content 0.1 alpha documentation" href="index.html" />
+    <link rel="next" title="Authorization" href="authorization.html" />
+    <link rel="prev" title="A new Application" href="apps.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="authorization.html" title="Authorization"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="apps.html" title="A new Application"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">dynamic_content 0.1 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-theming-module">
+<h1>The theming module<a class="headerlink" href="#the-theming-module" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tldr">
+<h2>TLDR<a class="headerlink" href="#tldr" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><dl class="first docutils">
+<dt>either</dt>
+<dd><ul class="first simple">
+<li>attach <code class="docutils literal"><span class="pre">&#64;theme(default_theme_name)</span></code> decorator to your controller function</li>
+<li>or set the <cite>theme</cite> handler option to True or the theme name</li>
+</ul>
+<p class="last">to enable theming.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>either</dt>
+<dd><ul class="first simple">
+<li>attach <code class="docutils literal"><span class="pre">&#64;breadcrumbs</span></code> to your controller function</li>
+<li>or set <code class="docutils literal"><span class="pre">bradcrumbs</span></code> handler option to True</li>
+</ul>
+<p class="last">to get the <code class="docutils literal"><span class="pre">breadcrumbs</span></code> variable in the template</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="package">
+<h2>Package<a class="headerlink" href="#package" title="Permalink to this headline">¶</a></h2>
+<p>The module is called <cite>theming</cite> and can be found in the <cite>dyc.modules</cite> directory.</p>
+</div>
+<div class="section" id="theming-with-theming">
+<h2>Theming with theming<a class="headerlink" href="#theming-with-theming" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="effect-on-context">
+<h3>Effect on context<a class="headerlink" href="#effect-on-context" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">&#64;theme()</span></code> adds a <code class="docutils literal"><span class="pre">'theme_config'</span></code> key with a dictionary containing information about, you guessed it, the specified theme to the <code class="docutils literal"><span class="pre">DynamicContent.config</span></code> dict. This &#8216;theme_config&#8217; is basically a copy of the config.json file from the theme directory and is used to configure behaviour of the <code class="docutils literal"><span class="pre">&#64;theme</span></code> decorator and others, such as <code class="docutils literal"><span class="pre">&#64;commons.Regions</span></code>.</p>
+<p>Additionally the decorator compiles a list of <code class="docutils literal"><span class="pre">'scripts'</span></code>, <code class="docutils literal"><span class="pre">'stylesheets'</span></code> and <code class="docutils literal"><span class="pre">'meta'</span></code>. Which are rendered into strings and attached to the DynamicContent.context dict with those keys to later be inserted into the template.</p>
+<p>Basically it adds stylesheets based on the theme configuration.</p>
+</div>
+<div class="section" id="effect-on-templates">
+<h3>Effect on templates<a class="headerlink" href="#effect-on-templates" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>&#64;theme</cite> decorator does not directly influence the name of the view, however it adds the themes <code class="docutils literal"><span class="pre">'template_directory'</span></code> as the first path in which to search for a matching template.</p>
+<p>Since every theme defines its own classes etc. you should use one of the themes boilerplate templates when designing your own template.</p>
+</div>
+<div class="section" id="enable-theming">
+<h3>Enable theming<a class="headerlink" href="#enable-theming" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="decorator">
+<h4>Decorator<a class="headerlink" href="#decorator" title="Permalink to this headline">¶</a></h4>
+<p>As you may have guessed already, theming a view, like just about anything else, requires a decorator. The decorator is called <cite>dyc.modules.theming.theme</cite>.</p>
+<p>Full decorator signature:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">theme</span><span class="p">(</span><span class="n">default_theme</span><span class="o">=</span><span class="n">dyc</span><span class="o">.</span><span class="n">includes</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">DEFAULT_THEME</span><span class="p">):</span>
+    <span class="c"># ...</span>
+    <span class="k">pass</span> <span class="c"># return wrapper function</span>
+</pre></div>
+</div>
+<p>The default_theme argument indicates which theme to attach if you don&#8217;t attach a theme yourself. As that argument has a default value you can omit it when decorating the function <strong>however</strong> since the decorator expects this argument you still have to add empty parens like so:</p>
+</div>
+<div class="section" id="middleware">
+<h4>Middleware<a class="headerlink" href="#middleware" title="Permalink to this headline">¶</a></h4>
+<p>Alternative to using a decorator you can set the &#8216;theme&#8217; option in the handler options. The <code class="docutils literal"><span class="pre">dyc.modules.theming.Middleware</span></code> will then take care of compiling the theme information.</p>
+<p>The argument here can either be a bool or a theme name which to use as default theme. It works very similar to the decorator as in a previously set <code class="docutils literal"><span class="pre">'theme'</span></code> key takes precedence, the argument provided will be used as default, if the <code class="docutils literal"><span class="pre">'theme'</span></code> key has not been set by the controller function (if the argument is <cite>True</cite> the default theme from settings will be used) and if <code class="docutils literal"><span class="pre">'theme_config'</span></code> has been previously set no changes at all are made.</p>
+</div>
+<div class="section" id="attach-function">
+<h4>Attach function<a class="headerlink" href="#attach-function" title="Permalink to this headline">¶</a></h4>
+<p>Theme also provides a raw attach function called <code class="docutils literal"><span class="pre">theme_dc_obj</span></code>. Which takes takes an instance of <code class="docutils literal"><span class="pre">dyc.util.structures.DynamicContent</span></code> and a default theme to use as an argument and will compile theme information and attach context variables as described above to the <code class="docutils literal"><span class="pre">DynamicContent</span></code> instance.</p>
+<p>This is mostly intended to be used by other decorators and/or middleware that depend on the theme information or template variables.</p>
+</div>
+</div>
+<div class="section" id="assigning-themes-to-views">
+<h3>Assigning themes to views<a class="headerlink" href="#assigning-themes-to-views" title="Permalink to this headline">¶</a></h3>
+<p>Inside a controller function that has been decorated with <code class="docutils literal"><span class="pre">&#64;theme()</span></code> you can set the theme it should use by setting the <code class="docutils literal"><span class="pre">'theme'</span></code> key in the <code class="docutils literal"><span class="pre">config</span></code> dict of the <code class="docutils literal"><span class="pre">DynamicContent</span></code> instance.</p>
+<p>Alternatively/Additionally you can provide a <code class="docutils literal"><span class="pre">default_theme</span></code> to the <code class="docutils literal"><span class="pre">&#64;theme()</span></code> decorator, which will automatically set the <code class="docutils literal"><span class="pre">'theme'</span></code> key of the <code class="docutils literal"><span class="pre">config</span></code> dict, provided it has not been set already.</p>
+</div>
+</div>
+<div class="section" id="breadcrumbs">
+<h2>Breadcrumbs<a class="headerlink" href="#breadcrumbs" title="Permalink to this headline">¶</a></h2>
+<p>You can use this part of the package to attach whats called breadcrumbs to your context, which you can then use in the template with the <code class="docutils literal"><span class="pre">breadcrumbs</span></code> key.</p>
+<p>Breadcrumbs are essentially links to parent pages. Currently these are obtained by simply splitting the request url in sections and rendering a series of links to each section.</p>
+<div class="section" id="enabling-breadcrumbs">
+<h3>Enabling breadcrumbs<a class="headerlink" href="#enabling-breadcrumbs" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Decorator<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>As with the theme, there is a decorator which can be used to enable breadcrumbs, and it is very imaginatively called <code class="docutils literal"><span class="pre">&#64;breadcrumbs</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">&#64;breadcrumbs</span></code> decorator does not require any arguments and can be used on basically any controller function.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">dyc.modules</span> <span class="kn">import</span> <span class="n">theming</span>
+<span class="nd">@mvc.controller_function</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="nd">@theming.breadcrumbs</span> <span class="c"># &lt;- there it is</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>Middleware<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>Again, like the theme, there&#8217;s another way of adding breadcrumbs to your context, a handler option.</p>
+<p>Simply set the <code class="docutils literal"><span class="pre">breadcrumbs</span></code> handler option to True and a subsequent middleware will take care of adding breadcrumbs to the context for you.</p>
+<p><em>Note: non-bool values for the ``breadcrumbs`` option are ignored</em></p>
+</div>
+<div class="section" id="id3">
+<h4>Attach function<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>Like theme breadcrumbs also provides a raw attach function called <code class="docutils literal"><span class="pre">attach_breadcrumbs</span></code>, which takes an instance of <code class="docutils literal"><span class="pre">dyc.util.structures.DynamicContent</span></code> as an argument and performs the breadcrumb attachment <strong>if</strong> and <strong>only if</strong> there were no breadcrumbs attached previously.</p>
+<p>This is mostly intended to be used by other decorators and/or middleware that depend on breadcrumbs.</p>
+</div>
+</div>
+<div class="section" id="usage-in-template">
+<h3>Usage in template<a class="headerlink" href="#usage-in-template" title="Permalink to this headline">¶</a></h3>
+<p>Simply <code class="docutils literal"><span class="pre">echo</span></code> or <code class="docutils literal"><span class="pre">print</span></code> the <code class="docutils literal"><span class="pre">breadcrumbs</span></code> variable.</p>
+</div>
+<div class="section" id="output-details">
+<h3>Output details<a class="headerlink" href="#output-details" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">breadcrumbs</span></code> variable in the template will contain a <code class="docutils literal"><span class="pre">dyc.util.structures.InvisibleList</span></code>, which inherits from the builtin list with the only difference being, that when converted to a string (InvisibleList.__str__) will just return the concatenated string representations of its elements.</p>
+<p>The elements of said list are instances of <code class="docutils literal"><span class="pre">dyc.util.html.A</span></code> and <code class="docutils literal"><span class="pre">dyc.util.html.ContainerElement</span></code> for the separator. This allows for easy access to the actual &#8216;href&#8217; attributes so you can render you breadcrumbs in a different/custom way.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The theming module</a><ul>
+<li><a class="reference internal" href="#tldr">TLDR</a></li>
+<li><a class="reference internal" href="#package">Package</a></li>
+<li><a class="reference internal" href="#theming-with-theming">Theming with theming</a><ul>
+<li><a class="reference internal" href="#effect-on-context">Effect on context</a></li>
+<li><a class="reference internal" href="#effect-on-templates">Effect on templates</a></li>
+<li><a class="reference internal" href="#enable-theming">Enable theming</a><ul>
+<li><a class="reference internal" href="#decorator">Decorator</a></li>
+<li><a class="reference internal" href="#middleware">Middleware</a></li>
+<li><a class="reference internal" href="#attach-function">Attach function</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#assigning-themes-to-views">Assigning themes to views</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#breadcrumbs">Breadcrumbs</a><ul>
+<li><a class="reference internal" href="#enabling-breadcrumbs">Enabling breadcrumbs</a><ul>
+<li><a class="reference internal" href="#id1">Decorator</a></li>
+<li><a class="reference internal" href="#id2">Middleware</a></li>
+<li><a class="reference internal" href="#id3">Attach function</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage-in-template">Usage in template</a></li>
+<li><a class="reference internal" href="#output-details">Output details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="apps.html"
+                        title="previous chapter">A new Application</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="authorization.html"
+                        title="next chapter">Authorization</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/theming-module.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="authorization.html" title="Authorization"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="apps.html" title="A new Application"
+             >previous</a> |</li>
+        <li><a href="index.html">dynamic_content 0.1 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Justus Adam.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3b2.
+    </div>
+  </body>
+</html>
