@@ -16,7 +16,7 @@ TLDR
 Package
 -------
 
-The module is called `theming` and can be found in the `dyc.modules` directory.
+The module is called ``theming`` and can be found as a module in ``dycm``.
 
 Theming with theming
 --------------------
@@ -33,7 +33,7 @@ Basically it adds stylesheets based on the theme configuration.
 Effect on templates
 ^^^^^^^^^^^^^^^^^^^
 
-The `@theme` decorator does not directly influence the name of the view, however it adds the themes ``'template_directory'`` as the first path in which to search for a matching template.
+The ``@theme`` decorator does not directly influence the name of the view, however it adds the themes ``'template_directory'`` as the first path in which to search for a matching template.
 
 Since every theme defines its own classes etc. you should use one of the themes boilerplate templates when designing your own template.
 
@@ -43,13 +43,13 @@ Enable theming
 Decorator
 """""""""
 
-As you may have guessed already, theming a view, like just about anything else, requires a decorator. The decorator is called `dyc.modules.theming.theme`.
+As you may have guessed already, theming a view, like just about anything else, requires a decorator. The decorator is called ``dycm.theming.theme``.
 
 Full decorator signature:
 
 .. code:: python
 
-    def theme(default_theme=dyc.includes.settings.DEFAULT_THEME):
+    def theme(default_theme=dycc.includes.settings.DEFAULT_THEME):
         # ...
         pass # return wrapper function
 
@@ -57,6 +57,7 @@ Full decorator signature:
 The default_theme argument indicates which theme to attach if you don't attach a theme yourself. As that argument has a default value you can omit it when decorating the function **however** since the decorator expects this argument you still have to add empty parens like so:
 
 .. code:: pyton
+
     @mvc.controller_function(**options)
     @theming.theme() # <- note the empty parens
     def controller(dc_obj):
@@ -66,9 +67,10 @@ The default_theme argument indicates which theme to attach if you don't attach a
 Middleware
 """"""""""
 
-Alternative to using a decorator you can set the 'theme' option in the handler options. The ``dyc.modules.theming.Middleware`` will then take care of compiling the theme information.
+Alternative to using a decorator you can set the 'theme' option in the handler options. The ``dycm.theming.Middleware`` will then take care of compiling the theme information.
 
 .. code:: python
+
     @mvc.controller_function(
         # ...
         theme='my_theme_name'
@@ -112,7 +114,10 @@ The ``@breadcrumbs`` decorator does not require any arguments and can be used on
 
 .. code:: python
 
-    from dyc.modules import theming
+    from dycc import mvc
+    from dycm import theming
+
+
     @mvc.controller_function(...)
     @theming.breadcrumbs # <- there it is
     def my_function(...):
@@ -128,7 +133,11 @@ Simply set the ``breadcrumbs`` handler option to True and a subsequent middlewar
 *Note: non-bool values for the ``breadcrumbs`` option are ignored*
 
 .. code:: python
-    from dyc.modules import theming
+
+    from dycc import mvc
+    from dycm import theming
+
+
     @mvc.controller_function(
         ...
         breadcrumbs=True
@@ -139,7 +148,7 @@ Simply set the ``breadcrumbs`` handler option to True and a subsequent middlewar
 Attach function
 """""""""""""""
 
-Like theme breadcrumbs also provides a raw attach function called ``attach_breadcrumbs``, which takes an instance of ``dyc.util.structures.DynamicContent`` as an argument and performs the breadcrumb attachment **if** and **only if** there were no breadcrumbs attached previously.
+Like theme breadcrumbs also provides a raw attach function called ``attach_breadcrumbs``, which takes an instance of ``dycc.util.structures.DynamicContent`` as an argument and performs the breadcrumb attachment **if** and **only if** there were no breadcrumbs attached previously.
 
 This is mostly intended to be used by other decorators and/or middleware that depend on breadcrumbs.
 
@@ -151,6 +160,6 @@ Simply ``echo`` or ``print`` the ``breadcrumbs`` variable.
 Output details
 ^^^^^^^^^^^^^^
 
-The ``breadcrumbs`` variable in the template will contain a ``dyc.util.structures.InvisibleList``, which inherits from the builtin list with the only difference being, that when converted to a string (InvisibleList.__str__) will just return the concatenated string representations of its elements.
+The ``breadcrumbs`` variable in the template will contain a ``dycc.util.structures.InvisibleList``, which inherits from the builtin list with the only difference being, that when converted to a string (InvisibleList.__str__) will just return the concatenated string representations of its elements.
 
-The elements of said list are instances of ``dyc.util.html.A`` and ``dyc.util.html.ContainerElement`` for the separator. This allows for easy access to the actual 'href' attributes so you can render you breadcrumbs in a different/custom way.
+The elements of said list are instances of ``dycc.util.html.A`` and ``dycc.util.html.ContainerElement`` for the separator. This allows for easy access to the actual 'href' attributes so you can render you breadcrumbs in a different/custom way.

@@ -31,7 +31,7 @@ Write your own main script
 
 .. code:: python
 
-    from dyc.application import main
+    from dycc.application import main
     # import your own packages
     # and modules
 

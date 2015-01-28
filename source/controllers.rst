@@ -29,7 +29,7 @@ The decorator is called ``@controller_function()`` or ``@controller_method()`` i
 
 **Important**: If you are using a method as a controller the class containing the method has to be annotated as ``@controller_class`` or your controller will not be registered.
 
-The decorator is located in the package ``dyc.core.mvc(.decorator)``.
+The decorator is located in the package ``dycc.mvc(.decorator)``.
 
 This decorator then has to be supplied with configuration information. Which pages that this controller wished to handle and how it is to be handled.
 
@@ -97,13 +97,13 @@ Example
 
 .. code:: python
 
-    from dyc.core import mvc
-    from dyc import dchttp
+    from dycc import mvc
+    from dycc import http
 
     # defining a controller function
     @mvc.controller_function(
         {'greeting/hello', 'greeting/hola'}, # set of paths to handle
-        method=dchttp.RequestMethods.GET, # method to handle
+        method=http.RequestMethods.GET, # method to handle
         query=False # we dont want a query
     )
     def my_controller(dc_obj):
@@ -116,7 +116,7 @@ Example
     class MyController(object):
         @mvc.controller_method(
             'hello/{str}', # we can specify a path with a string instead of a set
-            method=dchttp.RequestMethods.POST, # lets handle some post requests
+            method=http.RequestMethods.POST, # lets handle some post requests
             query=['city', 'street'],
             anti_csrf=False, # one of the **options, this one turns csrf checking off
             require_ssl=True # another **option, this one will force ssl, if available
@@ -132,12 +132,12 @@ Known Options
 =============== =============== =========================================== ==========
 Name            Expected type   Used by                                     Default
 =============== =============== =========================================== ==========
-anti_csrf       bool            dyc.middleware.csrf.AntiCSRFMiddleware      True
-require_ssl     bool            dyc.middleware.ssl.ConditionalSSLRedirect   False
-no_context      bool            dyc.application.app.Application             False
-json_output     bool            dyc.middleware.rest.JSONTransform           False
-theme           bool, str       dyc.modules.theming.Middleware              False
-breadcrumbs     bool            dyc.modules.theming.Middleware              False
+anti_csrf       bool            dycc.middleware.csrf.AntiCSRFMiddleware     True
+require_ssl     bool            dycc.middleware.ssl.ConditionalSSLRedirect  False
+no_context      bool            dycc.application.app.Application            False
+json_output     bool            dycc.middleware.rest.JSONTransform          False
+theme           bool, str       dycm.theming.Middleware                     False
+breadcrumbs     bool            dycm.theming.Middleware                     False
 =============== =============== =========================================== ==========
 
 
@@ -152,10 +152,10 @@ require_ssl
 no_context
     if True the context (DynamicContent) object argument is omitted when calling the controller
 
-    Please note that some decorators, such as ``dyc.modules.users.decorator.authorize`` still required the DynamicContent object
+    Please note that some decorators, such as ``@dycm.users.decorator.authorize(permission)`` still required the DynamicContent object
 
 json_output
-    if True the middleware will compile what you returned as view into a json object and wrap it in a valid dchttp.response.Response object
+    if True the middleware will compile what you returned as view into a json object and wrap it in a valid dycc.http.response.Response object
 
 theme
     - True: themes the view (with default theme from settings.DEFAULT_THEME)
@@ -180,13 +180,13 @@ Implementation details
             class_,
             value,
             *,
-            method=dchttp.RequestMethods.GET,
+            method=http.RequestMethods.GET,
             headers=None,
             query=False,
             **options
             ):
 
- #. ``@controller_method`` does not return the original function but rather a callable instance of dyc.core.mvc.decorator.ControllerFunction.
+ #. ``@controller_method`` does not return the original function but rather a callable instance of dycc.mvc.decorator.ControllerFunction.
 
 Structure
 ---------
@@ -202,23 +202,23 @@ Any normal controller function has the following base signature:
 
     @controller_function(**options)
     def controller_f(dc_obj):
-        dc_obj # instance of dyc.util.structures.DynamicContent
+        dc_obj # instance of dycc.util.structures.DynamicContent
         return "" # view name
 
 
 Common signature features
 """""""""""""""""""""""""
 
- -  unless ``no_context=True`` is set in the controller options every controller function is being called with an instance of dyc.util.structures.DynamicContent matching the request as the first argument.
+ -  unless ``no_context=True`` is set in the controller options every controller function is being called with an instance of dycc.util.structures.DynamicContent matching the request as the first argument.
  -  unless a decorator is used to change the return outside of the controller itself, the return should be the name of the view/template that will be used.
 
     The '.html' can be omitted in the view name, it'll automatically get added by the formatter.
 
     Decorators changing the return are for example:
 
-     -  ``dyc.core.mvc.decorator.json_return``,
+     -  ``dycc.mvc.decorator.json_return``,
 
-     -  ``dyc.modules.node.make_node``
+     -  ``dycm.node.make_node``
 
 Additional features
 """""""""""""""""""
@@ -240,7 +240,7 @@ Argument ordering rules
     # '/' before the path is optional
     @dycc.mvc.controller_function(
         'handle/{str}/{int}/{str name}/hello/{int number}',
-        method=dyc.dchttp.RequestMethods.GET,
+        method=dycc.http.RequestMethods.GET,
         query=['some', 'argument']
     )
     def my_function(
@@ -261,7 +261,7 @@ Argument ordering rules
         path_argument_2 == 2
         name == 'clarkeson'
         number == 300
-        some == None 
+        some == None
         argument == [12]
 
         return 'page'
