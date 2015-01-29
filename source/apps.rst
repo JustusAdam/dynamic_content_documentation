@@ -31,9 +31,9 @@ If you're writing you own application
 
     by setting the DATABASE variable in ``dycc.includes.settings``
 
-    -   Sqlite: ``dycc.structures.SQLite(path_to_database)``
+    -   Sqlite: ``{type: 'sqlite', name: 'your/database/path.db'}``
 
-    -   MySQL: ``dycc.structures.MySQL(user, autocommit, password, name, host)``
+    -   MySQL: ``{type: 'mysql', name: 'username', port: 5318008, host: 'your host', password: '????'}``
 
 Starting the app
 ----------------
