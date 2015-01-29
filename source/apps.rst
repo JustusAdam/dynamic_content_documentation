@@ -8,12 +8,24 @@ Configuring modules
 
     either
 
-    -   place them in ``dycm`` and add them to ``dycc.includes.settings.MODULES``
+    -   place them in ``dycm`` and add them to the settings file (will be ``settings.yml`` if you're using a pre-packaged distribution)
 
     -   import them in your own start script
 
 Configuring Settings
 --------------------
+
+The way you configure your settings strongly depends on whether you use dynamic_content as a pre-packaged cms or want to write your own application.
+
+If you are using a pre-packaged disttribution
+    Simply open settings.yml in the directory of the applcation and change the values you'd like (if required at all).
+
+If you're writing you own application
+    You may add custom settings by two means, either
+
+     - create a settings.yml or settings.json file containing a dictionary/mapping/object with keys and values representing the settings and provide the filepath to main.main() when starting the application. (Command line arguments still work)
+
+     - directly provide a python dictionary of settings to main.main()
 
 1.  Define a database
 
@@ -38,7 +50,7 @@ Write your own main script
     # do your preparation work
 
     # call this function from anywhere
-    main.main()
+    main.main('path/to/settings.yml')
 
     # BAM, there you go, up and running
 
