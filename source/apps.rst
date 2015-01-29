@@ -44,6 +44,8 @@ Write your own main script
 
 and run it with either ``pypy3`` or ``python3``
 
+*make sure the dycc package is in the PYTHONPATH*
+
 Use the predefined main script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
