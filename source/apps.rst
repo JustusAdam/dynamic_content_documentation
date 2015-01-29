@@ -61,11 +61,7 @@ and run it with either ``pypy3`` or ``python3``
 Use the predefined main script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-invoke either
-
- -  ``pypy3 path_to_framework/dycc/application/main.py --some command_line --arguments true``
-
- -  ``python3 path_to_framework/dycc/application/main.py --some command_line --arguments true``
+... *rework needed* ...
 
 Use the predefined bash script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
