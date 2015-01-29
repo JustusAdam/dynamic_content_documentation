@@ -8,7 +8,7 @@ Configuring modules
 
     either
 
-    -   place them in ``dyc/modules`` and add them to ``settings.MODULES``
+    -   place them in ``dycm`` and add them to ``settings.MODULES``
 
     -   import them in your own start script
 
@@ -17,11 +17,11 @@ Configuring Settings
 
 1.  Define a database
 
-    by setting the DATABASE variable in ``dyc.includes.settings``
+    by setting the DATABASE variable in ``dycc.includes.settings``
 
-    -   Sqlite: ``dyc.structures.SQLite(path_to_database)``
+    -   Sqlite: ``dycc.structures.SQLite(path_to_database)``
 
-    -   MySQL: ``dyc.structures.MySQL(user, autocommit, password, name, host)``
+    -   MySQL: ``dycc.structures.MySQL(user, autocommit, password, name, host)``
 
 Starting the app
 ----------------
@@ -49,9 +49,9 @@ Use the predefined main script
 
 invoke either
 
- -  ``pypy3 path_to_framework/dyc/application/main.py --some command_line --arguments true``
+ -  ``pypy3 path_to_framework/dycc/application/main.py --some command_line --arguments true``
 
- -  ``python3 path_to_framework/dyc/application/main.py --some command_line --arguments true``
+ -  ``python3 path_to_framework/dycc/application/main.py --some command_line --arguments true``
 
 Use the predefined bash script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
