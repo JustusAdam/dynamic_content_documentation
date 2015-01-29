@@ -60,7 +60,7 @@ All *components provided must be either strings or types. The wrapped function w
 
 All **kwcomponents values must as well be either strings or types. The **kwargs the wrapped function was called with will be updated with the components corresponding to the keys.
 
-*Implementation note: since Components are lazy, as such we can already bind them at import time to a partial*
+*Implementation note: since Components are lazy, we can bind them at import time to a partial*
 
 Components are lazy. The ComponentContainer always returns a ``ComponentWrapper`` object, which mimics the underlying wrapped Component. This means there will never be a failed component retrieval, even if the actual component does not exist. However trying to access atttributes or methods will result in a ``ComponentNotLoaded`` exception.
 
@@ -72,3 +72,14 @@ You may define your own components and use them. The 'clean' way to do so is to 
 The new component will be stored under the name you provided as well as the class type.
 
 You may also directly assign component, which you can theoretically do by assigning to ``get_component``, but the cleaner, and better lookign way is to use ``dycc.register(name_or_type)``.
+
+
+Settings
+--------
+
+The 'settings' Component is a dictionary containing the fundamental program instance settings.
+
+PathMap
+-------
+
+The URL resolver instance.

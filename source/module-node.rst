@@ -1,5 +1,5 @@
-The node module
-===============
+Modules: node
+=============
 
 ... *comming soon* ...
 

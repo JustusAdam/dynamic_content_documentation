@@ -1,5 +1,5 @@
-The theming module
-==================
+Modules: theming
+================
 
 TLDR
 ----
