@@ -27,7 +27,9 @@ Contents:
    cms
    branches
    node-module
+   server
    rest
+
 
 
 
