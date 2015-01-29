@@ -8,7 +8,7 @@ Configuring modules
 
     either
 
-    -   place them in ``dycm`` and add them to ``settings.MODULES``
+    -   place them in ``dycm`` and add them to ``dycc.includes.settings.MODULES``
 
     -   import them in your own start script
 
