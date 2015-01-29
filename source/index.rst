@@ -20,13 +20,14 @@ Contents:
    :maxdepth: 2
 
    apps
-   theming-module
    authorization
    backbone
    controllers
    cms
    branches
-   node-module
+   module-theming
+   module-node
+   components
    server
    rest
 
