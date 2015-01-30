@@ -21,15 +21,15 @@ Before a hook can be registered the hook should be initialized by calling ``init
 
 The modules also provides a ``dycc.hooks.Hook`` class which provides the following methods:
 
-(classmethod) init_hook(cls)
+``(classmethod) init_hook(cls)``
     Inits a new hook with ``hook_name = cls.hook_name`` and ``expected_type == cls``
 
-(classmethod) register_class(cls, priority=0)
+``(classmethod) register_class(cls, priority=0)``
     Registeres a new instance of this class '``cls()``' as a hook with ``cls.hook_name``
 
     This obviously will not work if your class requires arguments in ``__init__`` (other than 'self')
 
-register_instance(self, priority=0)
+``register_instance(self, priority=0)``
     Registers this instance as a new hook with ``self.hook_name``
 
 In order to register a new Hook you can also directly call ``register(self, hook, handler, priority=0)`` on the ``HookManager`` instance, which will add the provided handler to the specified hook. This is intended for hooks that do not inherit from ``dycc.hooks.Hook``. The priority indicated where to place it in the list (the higher the closer to the front). Raises a Type error if the handler is not an instance of ``expected_class``.
@@ -41,23 +41,23 @@ Using Hooks
 
 The hook manager provides some convenience methods for using hooks.
 
-get_hooks(self, hook)
+``get_hooks(self, hook)``
     Returns a list of hooks registered with key 'hook'
 
-blank_call_hooks(self, hook, *args, **kwargs)
+``blank_call_hooks(self, hook, *args, **kwargs)``
     Calls all hooks registered with key 'hook' once with args and kwargs
 
-blank_call_hooks_with(self, hook, executable, *args, **kwargs)
+``blank_call_hooks_with(self, hook, executable, *args, \**kwargs)``
     Calls executable with all hooks in key 'hook' once with args and kwargs
 
-yield_call_hooks(self, hook, *args, **kwargs)
+``yield_call_hooks(self, hook, *args, **kwargs)``
     Calls all hooks from key 'hook' once yielding results. (Evaluates lazily)
 
-yield_call_hooks_with(self, hook, executable, *args, **kwargs)
+``yield_call_hooks_with(self, hook, executable, *args, **kwargs)``
     Calls executable with all hooks in key 'hook' once with args and kwargs yielding results. (Evaluates lazily)
 
-return_call_hooks(self, hook, *args, **kwargs)
+``return_call_hooks(self, hook, *args, **kwargs)``
     Calls all hooks from key 'hook' once returning a result once one of the hooks returns something other than None.
 
-return_call_hooks_with(self, hook, executable, *args, **kwargs)
+``return_call_hooks_with(self, hook, executable, *args, **kwargs)``
     Calls executable on all hooks from key 'hook' once returning a result once one of the hooks returns something other than None.

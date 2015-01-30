@@ -61,7 +61,7 @@ and run it with either ``pypy3`` or ``python3``
 Use the predefined main script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-... *rework needed* ...
+If you chose to use a pre-packaged distribution you can start the server by invoking the python/pypy interpreter on the main script, which is probably `main.py` in your app directory.
 
 Use the predefined bash script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -71,3 +71,50 @@ This method is the easiest and probably most convenient way of starting dynamic_
 invoke ``start.sh`` in the dynamic_content root directory
 
 *please note: command line arguments are not yet propagated from the bash script to the application*
+
+Command line arguments
+^^^^^^^^^^^^^^^^^^^^^^
+
+Command line arguments let you you specify certain settings when starting the app. These overwrite the settings defined in your settings file for this instance of the app.
+
++-----------------+----------------------------+
+| Option          |  Choices                   |
++=================+============================+
+| --http_enabled    true, false                |
++-----------------+----------------------------+
+| --https_enabled | true, false                |
++-----------------+----------------------------+
+| --logfile       | path/to/logfile            |
++-----------------+----------------------------+
+| --pathmap       | multi_table, tree          |
++-----------------+----------------------------+
+| --port          | integer                    |
++-----------------+----------------------------+
+| --ssl_port      | integer                    |
++-----------------+----------------------------+
+| --host          | string or ip               |
++-----------------+----------------------------+
+| --ssl_certfile  | path/to/certfile           |
++-----------------+----------------------------+
+| --ssl_keyfile   | path/to/keyfile            |
++-----------------+----------------------------+
+| --server        | plain, wsgi                |
++-----------------+----------------------------+
+| --loglevel      | log_warnings, log_errors,  |
+|                 | throw_errors, throw_all    |
++-----------------+----------------------------+
+
+Effects of selected Options:
+""""""""""""""""""""""""""""
+
+http_enabled/https_enabled
+    Enable/disable types of server
+
+pathmap
+    Which implementation of pathmap to use (can have an impact on performance)
+
+port/ssl_port
+    Ports to use for http/https. Cannot be the same and has not effect if corresponding server is disabled.
+
+loglevel
+    Which messages to log

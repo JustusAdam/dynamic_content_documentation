@@ -15,12 +15,12 @@ WSGI
 .. _WSGI: https://wsgi.readthedocs.org
 .. _here: https://wsgi.readthedocs.org
 
-The python WSGI server implementation is the default and best supported/tested server version. 
+The python WSGI server implementation is the default and best supported/tested server version. This server version is out of the ptyhon standard library and not tested for security yet. If you're particularily knowledgeable about server security please consider sharing.
 
 Plain HTTP
 ^^^^^^^^^^
 
-
+Python plain HTTP socketserver and request handler.
 
 Apache
 ------
