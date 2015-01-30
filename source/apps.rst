@@ -29,7 +29,7 @@ If you're writing you own application
 
 1.  Define a database
 
-    by setting the DATABASE variable in ``dycc.includes.settings``
+    by setting the 'database' variable in your settings
 
     -   Sqlite: ``{type: 'sqlite', name: 'your/database/path.db'}``
 

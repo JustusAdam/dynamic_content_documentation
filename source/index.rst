@@ -28,6 +28,7 @@ Contents:
    module-theming
    module-node
    components
+   hooks
    server
    rest
 
