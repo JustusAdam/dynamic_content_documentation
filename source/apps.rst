@@ -80,7 +80,7 @@ Command line arguments let you you specify certain settings when starting the ap
 +-----------------+----------------------------+
 | Option          |  Choices                   |
 +=================+============================+
-| --http_enabled    true, false                |
+| --http_enabled  | true, false                |
 +-----------------+----------------------------+
 | --https_enabled | true, false                |
 +-----------------+----------------------------+
