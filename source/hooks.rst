@@ -1,15 +1,12 @@
 Hooks
 =====
 
-Hooks are ways of implementing points in your code where handlers can be dynamically called and alter Data.
-
-Basics
-------
+This document describes a are ways of implementing points in your code where dynamically changing handlers can be called.
 
 Hooks are essentially classes of a specific type that handle certain events.
 
 The Hook Manager
-^^^^^^^^^^^^^^^^
+----------------
 
 In order to implement hooks for certain processes dynamic_content provides you with some funtions for regitering and retreiving and executing hooks.
 
@@ -18,17 +15,19 @@ The basis for all hooks is formed by a Component called ``HookManager`` of type 
 The manager object can be obtained by either calling ``dycc.get_component('HookManager')`` or, the clean way, by calling the static ``manager()`` method on the ``HookManager`` or ``Hook`` (sub)class.
 
 Registering Hooks
-^^^^^^^^^^^^^^^^^
+-----------------
 
 Before a hook can be registered the hook should be initialized by calling ``init_hook(self, hook, expected_class=Hook)`` on the ``HookManager.manager()`` instance. This adds a new, empty ``HookList`` object to the dictionary. Newly registered hooks will be required to be an instance of the expected_class. This is intended to ensure that hooks of the same key implement the same methods.
 
 The modules also provides a ``dycc.hooks.Hook`` class which provides the following methods:
 
 (classmethod) init_hook(cls)
-    Inits a new hook with ``hook_name = cls.hook_name`` and expected_type is cls
+    Inits a new hook with ``hook_name = cls.hook_name`` and ``expected_type == cls``
 
 (classmethod) register_class(cls, priority=0)
-    Registeres a new instance of this class 'cls()' as a hook with ``cls.hook_name``
+    Registeres a new instance of this class '``cls()``' as a hook with ``cls.hook_name``
+
+    This obviously will not work if your class requires arguments in ``__init__`` (other than 'self')
 
 register_instance(self, priority=0)
     Registers this instance as a new hook with ``self.hook_name``
@@ -38,7 +37,7 @@ In order to register a new Hook you can also directly call ``register(self, hook
 If you did not initialize your hook, the type of the first hook that gets registered with that name is assumed to be the required type for hooks registered under that key, which might lead to type errors if you're registering a subclass as first handler. *So. Remember kids , always register your hooks! (or just use the methods on Hook)*
 
 Using Hooks
-^^^^^^^^^^^
+-----------
 
 The hook manager provides some convenience methods for using hooks.
 
