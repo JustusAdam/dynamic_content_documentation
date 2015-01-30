@@ -52,6 +52,7 @@ The full function signature is (the same signature applies to ``controller_metho
         query=False,
         **options
         ):
+        pass
 
 =========== =========================================== ===========
 Name        Type                                        default
