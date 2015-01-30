@@ -29,36 +29,36 @@ Two injection decorators are provided by the ``_components`` module.
 .. code:: python
 
     def inject(*components, **kwcomponents):
-    """
-    Injects components into the function.
+        """
+        Injects components into the function.
 
-    All *components will be prepended to the *args the
-     function is being called with.
+        All *components will be prepended to the *args the
+         function is being called with.
 
-    All **kwcomponents will be added to (and overwrite on key collision)
-     the **kwargs the function is being called with.
+        All **kwcomponents will be added to (and overwrite on key collision)
+         the **kwargs the function is being called with.
 
-    :param component:
-    :param argname:
-    :return:
-    """
+        :param component:
+        :param argname:
+        :return:
+        """
 
-    def inner(func):
-        return functools.partial(
-            func,
-            *tuple(
-                get_component(a) for a in components
-            ),
-            **{
-                a:get_component(b) for a,b in kwcomponents.items()
-            }
-        )
+        def inner(func):
+            return functools.partial(
+                func,
+                *tuple(
+                    get_component(a) for a in components
+                ),
+                **{
+                    a:get_component(b) for a,b in kwcomponents.items()
+                }
+            )
 
-    return inner
+        return inner
 
-All *components provided must be either strings or types. The wrapped function will be called with the Components corresponding to the string/type *args in the order you specified them in prepended to the functions call *args.
+All \*components provided must be either strings or types. The wrapped function will be called with the Components corresponding to the string/type \*args in the order you specified them in prepended to the functions call \*args.
 
-All **kwcomponents values must as well be either strings or types. The **kwargs the wrapped function was called with will be updated with the components corresponding to the keys.
+All \**kwcomponents values must as well be either strings or types. The \**kwargs the wrapped function was called with will be updated with the components corresponding to the keys.
 
 *Implementation note: since Components are lazy, we can bind them at import time to a partial*
 
