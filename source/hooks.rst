@@ -15,7 +15,7 @@ In order to implement hooks for certain processes dynamic_content provides you w
 
 The basis for all hooks is formed by a Component called ``HookManager`` of type ``dycc.hooks.HookManager``. The Manager object internally keep a dictionary of hooks identified with a non-empty string name.
 
-The manager object can be obtained by either calling ``dycc.get_component('HookManager')`` or, the clean way, by calling the static method ``manager()`` on the ``HookManager`` or ``Hook`` (sub)class.
+The manager object can be obtained by either calling ``dycc.get_component('HookManager')`` or, the clean way, by calling the static ``manager()`` method on the ``HookManager`` or ``Hook`` (sub)class.
 
 Registering Hooks
 ^^^^^^^^^^^^^^^^^
@@ -45,19 +45,19 @@ The hook manager provides some convenience methods for using hooks.
 get_hooks(self, hook)
     Returns a list of hooks registered with key 'hook'
 
-blank_call_hooks(self, hook, *args,**kwargs)
+blank_call_hooks(self, hook, *args, **kwargs)
     Calls all hooks registered with key 'hook' once with args and kwargs
 
 blank_call_hooks_with(self, hook, executable, *args, **kwargs)
     Calls executable with all hooks in key 'hook' once with args and kwargs
 
-yield_call_hooks(self, hook, *args,**kwargs)
+yield_call_hooks(self, hook, *args, **kwargs)
     Calls all hooks from key 'hook' once yielding results. (Evaluates lazily)
 
 yield_call_hooks_with(self, hook, executable, *args, **kwargs)
     Calls executable with all hooks in key 'hook' once with args and kwargs yielding results. (Evaluates lazily)
 
-return_call_hooks(self, hook, *args,**kwargs)
+return_call_hooks(self, hook, *args, **kwargs)
     Calls all hooks from key 'hook' once returning a result once one of the hooks returns something other than None.
 
 return_call_hooks_with(self, hook, executable, *args, **kwargs)
