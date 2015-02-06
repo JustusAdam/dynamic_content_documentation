@@ -26,7 +26,7 @@ Classhooks offer a number of methods for interacting with the hooks as classmeth
 
 As well as call methods, such as ``yield_call_hooks``, ``yield_call_hooks_with``, ``return_call_hooks``, ``return_call_hooks_with``, ``blank_call_hooks`` and ``blank_call_hooks_with``. Which work very much the same way as those defined in manager, but basically have the ``hook`` argument already filled in with their own ``hook_name``.
 
-Hooks via Instancing
+Hooks via instancing
 --------------------
 
 The ``hooks.InstanceHook`` is the base class for hooks using instancing.
@@ -44,10 +44,15 @@ You can do so by instantiating a new ``FunctionHook`` with your function, the na
 
 *Implementation detail: @FunctionHook.make is a classmethod, as such you may subclass FunctionHook and still have it work properly*
 
+Hook Baseclass
+--------------
+
+``hooks.Hook`` is the abstract hook baseclass. All hooks are required to be a subclass of ``Hook``.
+
 The Hook Manager
 ----------------
 
-In order to implement hooks for certain processes dynamic_content provides you with some funtions for regitering and retreiving and executing hooks.
+In order to implement hooks for certain processes dynamic_content provides you with some funtions for registering, retreiving and executing hooks.
 
 The basis for all hooks is formed by a Component called ``HookManager`` of type ``dycc.hooks.HookManager``. The Manager object internally keep a dictionary of hooks identified with a non-empty string name.
 
