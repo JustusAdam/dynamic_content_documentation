@@ -63,7 +63,7 @@ The default_theme argument indicates which theme to attach if you don't attach a
 
 .. code:: python
 
-    @mvc.controller_function(**options)
+    @route.controller_function(**options)
     @theming.theme() # <- note the empty parens
     def controller(dc_obj):
         pass
@@ -76,7 +76,7 @@ Alternative to using a decorator you can set the 'theme' option in the handler o
 
 .. code:: python
 
-    @mvc.controller_function(
+    @route.controller_function(
         # ...
         theme='my_theme_name'
     )
@@ -119,11 +119,11 @@ The ``@breadcrumbs`` decorator does not require any arguments and can be used on
 
 .. code:: python
 
-    from dycc import mvc
+    from dycc import route
     from dycm import theming
 
 
-    @mvc.controller_function(...)
+    @route.controller_function(...)
     @theming.breadcrumbs # <- there it is
     def my_function(...):
         pass
@@ -139,11 +139,11 @@ Simply set the ``breadcrumbs`` handler option to True and a subsequent middlewar
 
 .. code:: python
 
-    from dycc import mvc
+    from dycc import route
     from dycm import theming
 
 
-    @mvc.controller_function(
+    @route.controller_function(
         # ...
         breadcrumbs=True
     )
