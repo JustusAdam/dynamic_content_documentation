@@ -4,6 +4,8 @@ Registering a new Controller
 TLDR
 ----
 
+ - module ``dycc.route``
+
  -  Put ``@controller_function(value, method, headers, query, **options)`` as the top-most decorator on your function (``value`` are the url_paths it applies to).
 
  -  If you're using a method use ``@controller_class`` on the class and ``@controller_method(value, method, headers, query, **options)`` on the method (otherwise works like ``@controller_function``)
@@ -29,7 +31,7 @@ The decorator is called ``@controller_function()`` or ``@controller_method()`` i
 
 **Important**: If you are using a method as a controller the class containing the method has to be annotated as ``@controller_class`` or your controller will not be registered.
 
-The decorator is located in the package ``dycc.mvc(.decorator)``.
+The decorator is located in the package ``dycc.route(.decorator)``.
 
 This decorator then has to be supplied with configuration information. Which pages that this controller wished to handle and how it is to be handled.
 
@@ -65,7 +67,7 @@ options     any                                         no options
 =========== =========================================== ===========
 
 Effects
-""""""""
+"""""""
 
 value
     Paths that this controller function handles
@@ -120,11 +122,11 @@ Example
 
 .. code:: python
 
-    from dycc import mvc
+    from dycc import route
     from dycc import http
 
     # defining a controller function
-    @mvc.controller_function(
+    @route.controller_function(
         {'greeting/hello', 'greeting/hola'}, # set of paths to handle
         method=http.RequestMethods.GET, # method to handle
         query=False # we dont want a query
@@ -135,9 +137,9 @@ Example
         return "greeting" # returning the view name
 
     # defining a controller method
-    @mvc.controller_class
+    @route.controller_class
     class MyController(object):
-        @mvc.controller_method(
+        @route.controller_method(
             'hello/{str}', # we can specify a path with a string instead of a set
             method=http.RequestMethods.POST, # lets handle some post requests
             query=['city', 'street'],
@@ -210,7 +212,7 @@ Implementation details
             ):
             pass
 
- #. ``@controller_method`` does not return the original function but rather a callable instance of dycc.mvc.decorator.ControllerFunction.
+ #. ``@controller_method`` does not return the original function but rather a callable instance of dycc.route.decorator.ControllerFunction.
 
 Structure
 ---------
@@ -240,7 +242,7 @@ Common signature features
 
     Decorators changing the return are for example:
 
-     -  ``dycc.mvc.decorator.json_return``,
+     -  ``dycc.route.decorator.json_return``,
 
      -  ``dycm.node.make_node``
 
@@ -262,7 +264,7 @@ Argument ordering rules
 .. code:: python
 
     # '/' before the path is optional
-    @dycc.mvc.controller_function(
+    @dycc.route.controller_function(
         'handle/{str}/{int}/{str name}/hello/{int number}',
         method=dycc.http.RequestMethods.GET,
         query=['some', 'argument']
