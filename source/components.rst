@@ -13,14 +13,14 @@ This system is not intended to be used with any kind of datastructure that is mu
 How Components are stored
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Components are stored in a non-case sensitive dictionary ``dycc._component.ComponentContainer``. Be aware that when assigning and looking up keys they will be reformatted with ``dycc._component.name_transform`` which removes all spaces and underscores and makes all characters lower case.
+Components are stored in a non-case sensitive dictionary ``framework.component.ComponentContainer``. Be aware that when assigning and looking up keys they will be reformatted with ``framework.component.name_transform`` which removes all spaces and underscores and makes all characters lower case.
 
 Components/Component keys can be types or strings.
 
+
+
 Accessing Components
 ^^^^^^^^^^^^^^^^^^^^
-
-The ``dycc`` module provides two functions for directly accessing Components: ``get_component`` and ``call_component`` which both do exactly the same thing. They are aliases for the ``ComponentContainer`` dictionary instance and invoke its ``__call__`` method which either returns the component (when supplied with only one argument) or call it with the remainder of the arguments.
 
 The clean and test secure way of referencing/accessing Components is via injection.
 
@@ -37,30 +37,39 @@ Two injection decorators are provided by the ``_components`` module.
 
         All **kwcomponents will be added to (and overwrite on key collision)
          the **kwargs the function is being called with.
-
-        :param component:
-        :param argname:
+    
+        :param components: positional components to inject
+        :param kwcomponents: keyword components to inject
         :return:
         """
 
+        components = tuple(get_component(a) for a in components)
+        kwcomponents = {
+            a: get_component(b) for a, b in kwcomponents.items()
+        }
+
         def inner(func):
-            return functools.partial(
-                func,
-                *tuple(
-                    get_component(a) for a in components
-                ),
-                **{
-                    a:get_component(b) for a,b in kwcomponents.items()
-                }
-            )
+            """
+            Inner function to allow call arguments
+
+            :param func: function to wrap
+            :return: function wrapper
+            """
+
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                return func(
+                    *tuple(a.get() for a in components) + args,
+                    **dict(((a, b.get()) for a, b in kwcomponents.items()), **kwargs)
+                )
+
+            return wrapper
 
         return inner
 
 All \*components provided must be either strings or types. The wrapped function will be called with the Components corresponding to the string/type \*args in the order you specified them in prepended to the functions call \*args.
 
 All \**kwcomponents values must as well be either strings or types. The \**kwargs the wrapped function was called with will be updated with the components corresponding to the keys.
-
-*Implementation note: since Components are lazy, we can bind them at import time to a partial*
 
 Components are lazy. The ComponentContainer always returns a ``ComponentWrapper`` object, which mimics the underlying wrapped Component. This means there will never be a failed component retrieval, even if the actual component does not exist. However trying to access atttributes or methods will result in a ``ComponentNotLoaded`` exception.
 
