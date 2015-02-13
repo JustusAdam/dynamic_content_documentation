@@ -4,7 +4,7 @@ Registering a new Controller
 TLDR
 ----
 
- - module ``dycc.route``
+ - module ``framework.route``
 
  -  Put ``@controller_function(value, method, headers, query, **options)`` as the top-most decorator on your function (``value`` are the url_paths it applies to).
 
@@ -31,7 +31,7 @@ The decorator is called ``@controller_function()`` or ``@controller_method()`` i
 
 **Important**: If you are using a method as a controller the class containing the method has to be annotated as ``@controller_class`` or your controller will not be registered.
 
-The decorator is located in the package ``dycc.route(.decorator)``.
+The decorator is located in the package ``framework.route(.decorator)``.
 
 This decorator then has to be supplied with configuration information. Which pages that this controller wished to handle and how it is to be handled.
 
@@ -122,8 +122,8 @@ Example
 
 .. code:: python
 
-    from dycc import route
-    from dycc import http
+    from framework import route
+    from framework import http
 
     # defining a controller function
     @route.controller_function(

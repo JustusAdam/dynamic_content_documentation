@@ -56,7 +56,7 @@ In order to implement hooks for certain processes dynamic_content provides you w
 
 The basis for all hooks is formed by a Component called ``HookManager`` of type ``dycc.hooks.HookManager``. The Manager object internally keep a dictionary of hooks identified with a non-empty string name.
 
-The manager object can be obtained by either calling ``dycc.get_component('HookManager')`` or, the clean way, by calling the static ``manager()`` method on the ``HookManager`` or ``Hook`` (sub)class.
+The manager object can be obtained by either injecting the 'HookManager' compoentn or, the clean way, by calling the static ``manager()`` method on the ``HookManager`` or ``Hook`` (sub)class(es).
 
 Calling/Using Hooks
 -----------
