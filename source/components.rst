@@ -8,7 +8,7 @@ Everyone knows global variables are bad, but sometimes they can be just so usefu
 
 In order to avoid making extensive use of global variables, dynamic_content introduces a set of tools to make access to some objects available instance wide.
 
-This system is not intended to be used with any kind of datastructure that is mutated by any system, which is why components themselves cannot be re-assigned. Components are meant to be used read-only.
+This system is not intended to be used with any kind of datastructure that is mutated by any system, which is why components themselves cannot be re-assigned by default. Components are meant to be used read-only.
 
 How Components are stored
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -24,7 +24,7 @@ Accessing Components
 
 The clean and test secure way of referencing/accessing Components is via injection.
 
-Two injection decorators are provided by the ``_components`` module.
+Two injection decorators are provided by the ``frmaework.components`` module.
 
 .. code:: python
 
@@ -37,7 +37,7 @@ Two injection decorators are provided by the ``_components`` module.
 
         All **kwcomponents will be added to (and overwrite on key collision)
          the **kwargs the function is being called with.
-    
+
         :param components: positional components to inject
         :param kwcomponents: keyword components to inject
         :return:
@@ -71,7 +71,10 @@ All \*components provided must be either strings or types. The wrapped function 
 
 All \**kwcomponents values must as well be either strings or types. The \**kwargs the wrapped function was called with will be updated with the components corresponding to the keys.
 
-Components are lazy. The ComponentContainer always returns a ``ComponentWrapper`` object, which mimics the underlying wrapped Component. This means there will never be a failed component retrieval, even if the actual component does not exist. However trying to access atttributes or methods will result in a ``ComponentNotLoaded`` exception.
+There is anotehr way of acessing components using ``framework.component.get_component`` (or ``call_component``).
+
+Comonents accessed via injection will be the actual registered object. Whereas components acessed via ``get_component`` or ``call_component`` return a ``framework.component.ComponentWrapper`` object even if a Component with the corresponding name or type has not been registered yet. Thus the ``get_component`` method will never fail. This is due to Components being lazy and because ``get_component`` might get called at import time and the component might not be loaded yet. The actual component can be obtained using the ``get()`` method on the ``ComponentWrapper`` object but be aware that this may raise a ``ComponentNotLoaded`` exception if the component has not been registered yet.
+
 
 Storing Components
 ^^^^^^^^^^^^^^^^^^
@@ -80,7 +83,7 @@ You may define your own components and use them. The 'clean' way to do so is to 
 
 The new component will be stored under the name you provided as well as the class type.
 
-You may also directly assign component, which you can theoretically do by assigning to ``get_component``, but the cleaner, and better lookign way is to use ``dycc.register(name_or_type)``.
+You may also directly assign component, which you can theoretically do by assigning to ``get_component``, but the cleaner, and better lookign way is to use ``framework.component.register(name_or_type)``.
 
 
 Settings
@@ -92,3 +95,8 @@ PathMap
 -------
 
 The URL resolver instance.
+
+HookManger
+----------
+
+Singleton managing different hooks. Registering, removing and calling them.
