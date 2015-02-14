@@ -54,7 +54,7 @@ Full decorator signature:
 
 .. code:: python
 
-    def theme(default_theme=dycc.includes.settings.DEFAULT_THEME):
+    def theme(default_theme=DEFAULT_THEME):
         # ...
         pass # return wrapper function
 
@@ -89,7 +89,7 @@ The argument here can either be a bool or a theme name which to use as default t
 Attach function
 """""""""""""""
 
-Theme also provides a raw attach function called ``theme_dc_obj``. Which takes takes an instance of ``dyc.util.structures.DynamicContent`` and a default theme to use as an argument and will compile theme information and attach context variables as described above to the ``DynamicContent`` instance.
+Theme also provides a raw attach function called ``theme_dc_obj``. Which takes takes an instance of ``framework.util.structures.DynamicContent`` and a default theme to use as an argument and will compile theme information and attach context variables as described above to the ``DynamicContent`` instance.
 
 This is mostly intended to be used by other decorators and/or middleware that depend on the theme information or template variables.
 
@@ -119,8 +119,8 @@ The ``@breadcrumbs`` decorator does not require any arguments and can be used on
 
 .. code:: python
 
-    from dycc import route
-    from dycm import theming
+    from framework import route
+    from framework import theming
 
 
     @route.controller_function(...)
@@ -139,8 +139,8 @@ Simply set the ``breadcrumbs`` handler option to True and a subsequent middlewar
 
 .. code:: python
 
-    from dycc import route
-    from dycm import theming
+    from framework import route
+    from framework import theming
 
 
     @route.controller_function(
@@ -153,7 +153,7 @@ Simply set the ``breadcrumbs`` handler option to True and a subsequent middlewar
 Attach function
 """""""""""""""
 
-Like theme breadcrumbs also provides a raw attach function called ``attach_breadcrumbs``, which takes an instance of ``dycc.util.structures.DynamicContent`` as an argument and performs the breadcrumb attachment **if** and **only if** there were no breadcrumbs attached previously.
+Like theme breadcrumbs also provides a raw attach function called ``attach_breadcrumbs``, which takes an instance of ``framework.util.structures.DynamicContent`` as an argument and performs the breadcrumb attachment **if** and **only if** there were no breadcrumbs attached previously.
 
 This is mostly intended to be used by other decorators and/or middleware that depend on breadcrumbs.
 
@@ -165,6 +165,6 @@ Simply ``echo`` or ``print`` the ``breadcrumbs`` variable.
 Output details
 ^^^^^^^^^^^^^^
 
-The ``breadcrumbs`` variable in the template will contain a ``dycc.util.structures.InvisibleList``, which inherits from the builtin list with the only difference being, that when converted to a string ``InvisibleList.__str__`` will just return the concatenated string representations of its elements.
+The ``breadcrumbs`` variable in the template will contain a ``framework.util.structures.InvisibleList``, which inherits from the builtin list with the only difference being, that when converted to a string ``InvisibleList.__str__`` will just return the concatenated string representations of its elements.
 
-The elements of said list are instances of ``dycc.util.html.A`` and ``dycc.util.html.ContainerElement`` for the separator. This allows for easy access to the actual 'href' attributes so you can render you breadcrumbs in a different/custom way.
+The elements of said list are instances of ``framework.util.html.A`` and ``framework.util.html.ContainerElement`` for the separator. This allows for easy access to the actual 'href' attributes so you can render you breadcrumbs in a different/custom way.
