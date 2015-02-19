@@ -26,56 +26,21 @@ Accessing Components
 
 The clean and test secure way of referencing/accessing Components is via injection.
 
-Two injection decorators are provided by the ``framework.machinery.components`` module.
+Two injection decorators are provided by the module:
 
-.. code:: python
+``inject(*components, **kwcomponents)``
+    for decorating functions
 
-    def inject(*components, **kwcomponents):
-        """
-        Injects components into the function.
+``inject_method(*components, **kwcomponents)``
+    for decorating methods, including ``__init__``
 
-        All *components will be prepended to the *args the
-         function is being called with.
-
-        All **kwcomponents will be added to (and overwrite on key collision)
-         the **kwargs the function is being called with.
-
-        :param components: positional components to inject
-        :param kwcomponents: keyword components to inject
-        :return:
-        """
-
-        components = tuple(get_component(a) for a in components)
-        kwcomponents = {
-            a: get_component(b) for a, b in kwcomponents.items()
-        }
-
-        def inner(func):
-            """
-            Inner function to allow call arguments
-
-            :param func: function to wrap
-            :return: function wrapper
-            """
-
-            @functools.wraps(func)
-            def wrapper(*args, **kwargs):
-                return func(
-                    *tuple(a.get() for a in components) + args,
-                    **dict(((a, b.get()) for a, b in kwcomponents.items()), **kwargs)
-                )
-
-            return wrapper
-
-        return inner
-
-All \*components provided must be either strings or types. The wrapped function will be called with the Components corresponding to the string/type \*args in the order you specified them in prepended to the functions call \*args.
+All \*components provided must be either strings or types. The wrapped function will be called with the Components corresponding to the string/type \*args, in the order you provided them in, prepended to the functions call \*args. ``inject_method(
 
 All \**kwcomponents values must as well be either strings or types. The \**kwargs the wrapped function was called with will be updated with the components corresponding to the keys.
 
-There is anotehr way of acessing components using ``get_component`` (or ``call_component``).
+There is another way of accessing components using ``get_component`` (or ``call_component``).
 
-Comonents accessed via injection will be the actual registered object. Whereas components acessed via ``get_component`` or ``call_component`` return a ``ComponentWrapper`` object even if a Component with the corresponding name or type has not been registered yet. Thus the ``get_component`` method will never fail. This is due to Components being lazy and because ``get_component`` might get called at import time and the component might not be loaded yet. The actual component can be obtained using the ``get()`` method on the ``ComponentWrapper`` object but be aware that this may raise a ``ComponentNotLoaded`` exception if the component has not been registered yet.
+Components accessed via injection will be the actual registered object. Whereas components accessed via ``get_component`` or ``call_component`` return a ``ComponentWrapper`` object even if a Component with the corresponding name or type has not been registered yet. Thus the ``get_component`` method will never fail. This is due to Components being lazy and because ``get_component`` might get called at import time and the component might not be loaded yet. The actual component can be obtained using the ``get()`` method on the ``ComponentWrapper`` object but be aware that this may raise a ``ComponentNotLoaded`` exception if the component has not been registered yet.
 
 
 Storing Components
@@ -85,7 +50,7 @@ You may define your own components and use them. The 'clean' way to do so is to 
 
 The new component will be stored under the name you provided as well as the class type.
 
-You may also directly assign component, which you can theoretically do by assigning to ``get_component``, but the cleaner, and better lookign way is to use ``register(name_or_type)``.
+You may also directly assign component, which you can theoretically do by assigning to ``get_component``, but the cleaner, and better looking way is to use ``register(name_or_type)``.
 
 
 Settings

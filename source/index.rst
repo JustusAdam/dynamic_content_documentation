@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to dynamic_content's documentation!
-=========================================================
+===========================================
 
 Content Management System for web application.
 
@@ -27,7 +27,7 @@ Contents:
    branches
    module-theming
    module-node
-   components
+   machinery
    hooks
    server
    rest

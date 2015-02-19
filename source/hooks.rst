@@ -59,7 +59,7 @@ The basis for all hooks is formed by a Component called ``HookManager`` of type 
 The manager object can be obtained by either injecting the 'HookManager' compoentn or, the clean way, by calling the static ``manager()`` method on the ``HookManager`` or ``Hook`` (sub)class(es).
 
 Calling/Using Hooks
------------
+-------------------
 
 The hook manager provides some convenience methods for using hooks.
 
